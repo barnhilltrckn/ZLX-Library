@@ -99,12 +99,13 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile.xell
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).elf32
+	@$(MAKE) --no-print-directory -f $(CURDIR)/xell/Makefile clean
 
 #---------------------------------------------------------------------------------
 else
@@ -136,12 +137,19 @@ $(OUTPUT).elf: $(OFILES)
 #---------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------
+FORCE:
 
-z:$(BUILD) $(OUTPUT).elf32
+xell_lv1: FORCE
+	@$(MAKE) --no-print-directory -f $(CURDIR)/xell/Makefile
+	
+z:$(BUILD) $(OUTPUT).elf32 xell_lv1
 	cp $(OUTPUT).elf32 /var/lib/tftpboot/tftpboot/xenon
 	$(PREFIX)strip /var/lib/tftpboot/tftpboot/xenon
 	$(PREFIX)strip $(OUTPUT).elf32
-	gzip -n9 -f $(OUTPUT).elf32 -S.z
+	gzip -n9 -f $(OUTPUT).elf32 -S.gz
+	@truncate --size=262128 $@ # 256k - footer size
+	@echo -n "xxxxxxxxxxxxxxxx" >> $@ # add footer
+	@dd if=$(OUTPUT).elf32.gz of=$@ conv=notrunc bs=1k seek=7 # inject stage2
 
 run: $(BUILD) $(OUTPUT).elf32
 	cp $(OUTPUT).elf32 /var/lib/tftpboot/tftpboot/xenon

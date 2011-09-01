@@ -40,11 +40,11 @@ extern "C" {
 #define WHITE			0x00FFFFFF
 #define BLACK			0x00000000
 #define BLUE 			0x00FF0000
-#define RED				0x000000FF
+#define RED			0x000000FF
 #define GREEN			0x0000FF00
 #define BLUR_ALPHA 		0x88000000
 #define ALPHA			0xFF000000
-#define WARNING_COLOR	0xFF6f641a
+#define WARNING_COLOR           0xFF6f641a
 #define ALERT_COLOR		0xFF1212b4
 
 static unsigned int DefaultColor = WHITE | BLUR_ALPHA;
@@ -573,7 +573,7 @@ namespace ZLX {
                         //FileEntry currentEntry = vEntry.at(entrySelected);
                         lpBrowserActionEntry currentAction = vAction[actionSelected];
                         if (currentAction->action != NULL) {
-                            //sprintf((char*)currentAction.param, "%s/%s", currentPath, currentEntry.name.c_str());
+                            currentAction->param = (void*)currentPath;
                             //currentAction->param = 
                             currentAction->action(currentAction);
                         }

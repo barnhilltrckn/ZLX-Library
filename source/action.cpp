@@ -47,8 +47,8 @@ extern "C" {
 
 void ActionBootTFTP(void * unused) {
     // boot TFTP
-    //network_init();
-    //int d = boot_tftp_url("192.168.1.98:/tftpboot/xenon");
+    network_init();
+    int d = boot_tftp_url("192.168.1.98:/tftpboot/xenon");
 }
 
 void ActionShutdown(void * unused) {

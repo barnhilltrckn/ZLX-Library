@@ -9,6 +9,7 @@
 
 #include <Console.h>
 #include <Draw.h>
+#include <Browser.h>
 #ifdef LIBXENON
 
 #include <debug.h>
@@ -47,8 +48,8 @@ extern "C" {
 
 void ActionBootTFTP(void * unused) {
     // boot TFTP
-    //network_init();
-    //int d = boot_tftp_url("192.168.1.98:/tftpboot/xenon");
+    network_init();
+    int d = boot_tftp_url("192.168.1.98:/tftpboot/xenon");
 }
 
 void ActionShutdown(void * unused) {
@@ -60,7 +61,6 @@ void ActionRestart(void * unused) {
     xenon_smc_power_reboot();
 }
 
-#ifndef XELL_2S
 
 // xbrflash.c
 //NAND SIZES
@@ -249,7 +249,8 @@ void DumpNand(char * dest) {
 
 void ActionDumpNand(void * unused) {
     char dest[512];
-    sprintf(dest, "%s/%s", (char*) unused, "dump.bin");
+    lpBrowserActionEntry action = (lpBrowserActionEntry)unused;
+    sprintf(dest, "%s/%s", (char*) action->param, "dump.bin");
     printf(dest);
     udelay(500);
     DumpNand(dest);
@@ -281,7 +282,7 @@ BOOL FileIsNand(const char * filename) {
     printf("FileIsNand:%s\r\n", (ret == TRUE) ? "true" : "false");
     return ret;
 }
-#endif
+
 
 BOOL FileIsElf(const char * filename) {
     BOOL ret = FALSE;
@@ -309,21 +310,14 @@ BOOL FileIsElf(const char * filename) {
     return ret;
 }
 
-
-#ifndef XELL_2S
-
 void ActionFlashNand(const char * filename) {
     if (App.Warning("Continue ???") == FALSE) {
         return;
     }
     flash_from_file(filename, -1);
 }
-#endif
 
 void ActionLaunchElf(const char * filename) {
-#if 1
-    elf_runFromDisk((char *)filename);
-#else
     char * elf = NULL;
     // read file by chunk
     FILE * f = fopen(filename, "rb");
@@ -363,7 +357,6 @@ void ActionLaunchElf(const char * filename) {
 
     }
     fclose(f);
-#endif
 }
 
 void ActionLaunchFile(char * filename) {
@@ -374,12 +367,10 @@ void ActionLaunchFile(char * filename) {
         }
         ActionLaunchElf(filename);
     }
-#ifndef XELL_2S
     if (FileIsNand(filename)) {
         if (App.Warning("Flash this nand file ???") == FALSE) {
             return;
         }
         ActionFlashNand(filename);
     }
-#endif
 }
