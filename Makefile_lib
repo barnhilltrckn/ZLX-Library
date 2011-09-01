@@ -15,7 +15,7 @@ include $(DEVKITXENON)/rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
+TARGET		:=	zlx
 BUILD		:=	build
 SOURCES		:=	incbin zlx
 DATA		:=	data 
@@ -138,7 +138,7 @@ endif
 
 
 install: $(BUILD) $(OUTPUT).a
-	cp $(OUTPUT).a $(DEVKITXENON)/usr/lib/liblzx.a
-	mkdir -p $(DEVKITXENON)/usr/include/lzx
-	cp -r lzx/* $(DEVKITXENON)/usr/include/lzx
+	cp $(OUTPUT).a $(DEVKITXENON)/usr/lib/libzlx.a
+	mkdir -p $(DEVKITXENON)/usr/include/zlx
+	cp -r lzx/* $(DEVKITXENON)/usr/include/zlx
 	find $(DEVKITXENON)/usr/include/lzx -type f \! -name "*.h" -delete

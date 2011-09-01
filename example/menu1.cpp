@@ -506,14 +506,14 @@ private:
     };
 };
 
-MyConsole cApp;
+MyConsole App;
 
 void ActionDumpNand(void * unused){
 	char * dest = (char*)unused;
 	float pct=0.0f;
 	while(1){
 		pct+=0.001f;
-		cApp.SetProgressValue(pct);
+		App.SetProgressValue(pct);
 		if(pct>1.0f)
 			break;
 	}
@@ -528,7 +528,7 @@ int main() {
 #endif
     
 
-    cApp.Run();
+    App.Run();
 
     while (1) {
     }

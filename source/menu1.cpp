@@ -38,7 +38,7 @@ extern "C" {
 
 using namespace ZLX;
 
-MyConsole cApp;
+MyConsole App;
 
 #define MAX_ACTION 16
 int nbAction = 0;
@@ -601,7 +601,7 @@ int main() {
     xenon_smc_start_bootanim();
     sfcx_init();
 
-    cApp.Run();
+    App.Run();
 
     while (1) {
     }

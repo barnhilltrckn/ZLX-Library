@@ -30,16 +30,16 @@ int main() {
     xenon_ata_init();
     dvd_init();
 #else
-    ZLX::Console cApp;
+    ZLX::Console App;
 #endif
 #ifdef WIN32
-    cApp.Create("font\\font", 0xFF0000FF, 0xFFFFFF00);
+    App.Create("font\\font", 0xFF0000FF, 0xFFFFFF00);
 #else
-    cApp.Create("game:\\Verdana_16", 0xFF0000FF, 0xFFFFFF00);
+    App.Create("game:\\Verdana_16", 0xFF0000FF, 0xFFFFFF00);
 #endif
-    cApp.Format("LZX Pre 0.1");
-    cApp.Format("Ced2911 %s", "dddd");
-    cApp.Format("Test v...");
+    App.Format("LZX Pre 0.1");
+    App.Format("Ced2911 %s", "dddd");
+    App.Format("Test v...");
 
     while (1) {
     }

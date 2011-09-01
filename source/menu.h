@@ -101,7 +101,7 @@ public:
     void Run();
 };
 
-extern MyConsole cApp;
+extern MyConsole App;
 
 #endif	/* MENU_H */
 

@@ -80,7 +80,7 @@ static std::vector<FileEntry> vEntry;
 
 // move to util ??
 
-static void append_dir_to_path(char * path, char * dir) {
+static void append_dir_to_path(char * path, const char * dir) {
     if (!strcmp(dir, "..")) {
         int i = strlen(path);
         int delimcount = 0;
@@ -230,9 +230,6 @@ namespace ZLX {
 
     void Browser::RenderFileListPanel() {
         int start, end;
-        float topOffset = -0.75f;
-        float leftOffset = -1.f;
-        float lineHeight = 0.07f;
 
         int size = vEntry.size();
 

@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Console.h"
-#include "Draw.h"
+#include <Console.h>
+#include <Draw.h>
 #ifdef LIBXENON
 
 #include <debug.h>
@@ -40,7 +40,7 @@ extern "C" {
 #include <string>
 #include <math.h>
 
-#include "menu.h"
+#include "tbrowser.h"
 
 
 //#define XELL_2S
@@ -366,7 +366,7 @@ void ActionLaunchElf(const char * filename) {
 #endif
 }
 
-void ActionLaunchFile(const char * filename) {
+void ActionLaunchFile(char * filename) {
 
     if (FileIsElf(filename)) {
         if (App.Warning("Continue with launch elf ???") == FALSE) {

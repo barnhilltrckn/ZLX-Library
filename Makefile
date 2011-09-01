@@ -17,7 +17,7 @@ include $(DEVKITXENON)/rules
 #---------------------------------------------------------------------------------
 TARGET		:=	zlx_browser
 BUILD		:=	build
-SOURCES		:=	incbin test zlx
+SOURCES		:=	incbin browser zlx
 DATA		:=	data 
 INCLUDES	:=	incbin zlx libs/include
 
