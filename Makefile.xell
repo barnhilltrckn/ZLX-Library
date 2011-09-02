@@ -147,9 +147,13 @@ z:$(BUILD) $(OUTPUT).elf32 xell_lv1
 	$(PREFIX)strip /var/lib/tftpboot/tftpboot/xenon
 	$(PREFIX)strip $(OUTPUT).elf32
 	gzip -n9 -f $(OUTPUT).elf32 -S.gz
-	@truncate --size=262128 $@ # 256k - footer size
+	@truncate --size=262128 xell-1f.bin # 256k - footer size
+	@truncate --size=262128 xell-2f.bin # 256k - footer size
+	@truncate --size=262128 xell-gggggg.bin # 256k - footer size
 	@echo -n "xxxxxxxxxxxxxxxx" >> $@ # add footer
-	@dd if=$(OUTPUT).elf32.gz of=$@ conv=notrunc bs=1k seek=7 # inject stage2
+	@dd if=$(OUTPUT).elf32.gz of=xell-1f.bin conv=notrunc bs=1k seek=7 # inject stage2
+	@dd if=$(OUTPUT).elf32.gz of=xell-2f.bin conv=notrunc bs=1k seek=7 # inject stage2
+	@dd if=$(OUTPUT).elf32.gz of=xell-gggggg.bin conv=notrunc bs=1k seek=7 # inject stage2  
 
 run: $(BUILD) $(OUTPUT).elf32
 	cp $(OUTPUT).elf32 /var/lib/tftpboot/tftpboot/xenon
