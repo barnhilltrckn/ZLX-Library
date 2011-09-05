@@ -41,7 +41,7 @@ namespace ZLX {
 
     void Bgshader::RenderBg() {
         if (isShaderLoaded == FALSE) {
-            printf("Bgshader CreateShader\r\n");
+            //printf("Bgshader CreateShader\r\n");
             CreateShader();
         }
        // printf("RenderBg\r\n");

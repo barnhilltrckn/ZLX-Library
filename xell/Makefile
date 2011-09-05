@@ -17,10 +17,8 @@ LDFLAGS = -nostdlib -n -m64 -Wl,--gc-sections
 OBJS =	$(LV1_DIR)/startup.o \
 	$(LV1_DIR)/main.o \
 	$(LV1_DIR)/cache.o \
-	$(LV1_DIR)/ctype.o \
-	$(LV1_DIR)/string.o \
 	$(LV1_DIR)/time.o \
-	$(LV1_DIR)/vsprintf.o \
+	$(LV1_DIR)/string.o \
 	$(LV1_DIR)/puff/puff.o
 
 TARGETS = xell-1f xell-2f xell-gggggg
@@ -32,8 +30,7 @@ all: $(foreach name,$(TARGETS),$(addprefix $(name).,build))
 
 clean:
 	@echo Cleaning...
-	@$(MAKE) --no-print-directory -f Makefile_lv2.mk clean
-	@rm -rf $(OBJS) $(foreach name,$(TARGETS),$(addprefix $(name).,bin elf)) stage2.elf32.gz
+	@rm -rf $(OBJS) $(foreach name,$(TARGETS),$(addprefix $(name).,bin elf))
 
 %.build:
 	@echo Building $* ... $(CURDIR)

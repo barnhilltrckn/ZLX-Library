@@ -10,7 +10,7 @@
 #endif
 //
 // These two structures are mapped to data loaded from disk.
-// DO NOT ALTER ANY ENTRIES OR YOU WILL BREAK 
+// DO NOT ALTER ANY ENTRIES OR YOU WILL BREAK
 // COMPATIBILITY WITH THE FONT FILE
 //
 #define ATGCALCFONTFILEHEADERSIZE(x) ( sizeof(unsigned int) + (sizeof(float)*4) + sizeof(unsigned short) + (sizeof(unsigned short)*(x)) )
@@ -81,10 +81,10 @@ namespace ZLX {
 
     /**
      * Create the font shader
-     * @return 
+     * @return
      */
     int Font::CreateFontShader() {
-#ifdef LIBXENON 
+#ifdef LIBXENON
         // Load already compiled shader
         static const struct XenosVBFFormat vbf = {
             3,
@@ -162,7 +162,7 @@ namespace ZLX {
      * Create a font instance
      * @param pFontTexture
      * @param pFontData
-     * @return 
+     * @return
      */
     int Font::Create(ZLXTexture * pFontTexture, const void * pFontData) {
 
@@ -205,7 +205,7 @@ namespace ZLX {
                 m_TranslatorTable[i] = _byteswap_ushort(m_TranslatorTable[i]);
             }
 #endif
-//            int offset = ATGCALCFONTFILEHEADERSIZE(m_cMaxGlyph + 1);
+            //            int offset = ATGCALCFONTFILEHEADERSIZE(m_cMaxGlyph + 1);
             pData += ATGCALCFONTFILEHEADERSIZE(m_cMaxGlyph + 1);
 
             // Read the glyph attributes from the file
@@ -564,12 +564,6 @@ namespace ZLX {
         *pHeight = m_fontHeight;
 
     }
-
-
-
-
-
-
 }
 
 

@@ -51,45 +51,6 @@ static inline uint32_t bswap_32(uint32_t t) {
     return ((t & 0xFF) << 24) | ((t & 0xFF00) << 8) | ((t & 0xFF0000) >> 8) | ((t & 0xFF000000) >> 24);
 }
 
-static void putch(unsigned char c) {
-    while (!((*(volatile uint32_t*)0x80000200ea001018)&0x02000000));
-    *(volatile uint32_t*)0x80000200ea001014 = (c << 24) & 0xFF000000;
-}
-
-int kbhit(void) {
-    uint32_t status;
-
-    do
-        status = *(volatile uint32_t*)0x80000200ea001018; while (status & ~0x03000000);
-
-    return !!(status & 0x01000000);
-}
-
-int getchar(void) {
-    while (!kbhit());
-    return (*(volatile uint32_t*)0x80000200ea001010) >> 24;
-}
-
-int putchar(int c) {
-#ifndef CYGNOS
-    if (c == '\n')
-        putch('\r');
-#endif
-    putch(c);
-    return 0;
-}
-
-void putstring(const char *c) {
-    while (*c)
-        putchar(*c++);
-}
-
-int puts(const char *c) {
-    putstring(c);
-    putstring("\n");
-    return 0;
-}
-
 /* e_ident */
 #define IS_ELF(ehdr) ((ehdr).e_ident[EI_MAG0] == ELFMAG0 && \
                       (ehdr).e_ident[EI_MAG1] == ELFMAG1 && \
@@ -135,7 +96,6 @@ unsigned long load_elf_image(void *addr) {
                     shdr->sh_size);
         }
         flush_code(target, shdr->sh_size);
-        puts("done");
     }
 
     return ehdr->e_entry;

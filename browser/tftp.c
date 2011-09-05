@@ -4,15 +4,14 @@
 #include <lwip/mem.h>
 #include <lwip/memp.h>
 #include <lwip/sys.h>
-
 #include <lwip/stats.h>
-
 #include <lwip/inet.h>
 #include <lwip/ip.h>
 #include <lwip/udp.h>
 #include <lwip/tcp.h>
 #include <lwip/dhcp.h>
 #include <netif/etharp.h>
+
 #include <elf/elf.h>
 #include <ppc/timebase.h>
 #include <network/network.h>

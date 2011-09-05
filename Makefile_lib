@@ -140,5 +140,5 @@ endif
 install: $(BUILD) $(OUTPUT).a
 	cp $(OUTPUT).a $(DEVKITXENON)/usr/lib/libzlx.a
 	mkdir -p $(DEVKITXENON)/usr/include/zlx
-	cp -r lzx/* $(DEVKITXENON)/usr/include/zlx
-	find $(DEVKITXENON)/usr/include/lzx -type f \! -name "*.h" -delete
+	cp -r zlx/* $(DEVKITXENON)/usr/include/zlx
+	find $(DEVKITXENON)/usr/include/zlx -type f \! -name "*.h" -delete

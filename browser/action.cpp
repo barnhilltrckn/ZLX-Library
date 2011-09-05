@@ -19,7 +19,6 @@
 extern "C" {
 #include <input/input.h>
 #include <xenon_nand/xenon_sfcx.h>
-#include <network/network.h>
 #include "tftp.h"
 }
 #include <console/console.h>
@@ -43,12 +42,21 @@ extern "C" {
 
 #include "tbrowser.h"
 
-
+#define printf
+extern "C" {
+    void httpd_start();
+}
 //#define XELL_2S
 
+void ActionStartHttpd(void * unused) {
+    httpd_start();
+}
+
+void ActionReturnToXell(void * unused) {
+    exit(0);
+}
+
 void ActionBootTFTP(void * unused) {
-    // boot TFTP
-    network_init();
     int d = boot_tftp_url("192.168.1.98:/tftpboot/xenon");
 }
 
@@ -249,7 +257,7 @@ void DumpNand(char * dest) {
 
 void ActionDumpNand(void * unused) {
     char dest[512];
-    lpBrowserActionEntry action = (lpBrowserActionEntry)unused;
+    lpBrowserActionEntry action = (lpBrowserActionEntry) unused;
     sprintf(dest, "%s/%s", (char*) action->param, "dump.bin");
     printf(dest);
     udelay(500);
@@ -282,7 +290,6 @@ BOOL FileIsNand(const char * filename) {
     printf("FileIsNand:%s\r\n", (ret == TRUE) ? "true" : "false");
     return ret;
 }
-
 
 BOOL FileIsElf(const char * filename) {
     BOOL ret = FALSE;

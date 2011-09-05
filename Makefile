@@ -17,7 +17,7 @@ include $(DEVKITXENON)/rules
 #---------------------------------------------------------------------------------
 TARGET		:=	zlx_browser
 BUILD		:=	build
-SOURCES		:=	incbin browser zlx
+SOURCES		:=	incbin zlx browser  xell/httpd 
 DATA		:=	data 
 INCLUDES	:=	incbin zlx libs/include
 
@@ -146,3 +146,5 @@ z:$(BUILD) $(OUTPUT).elf32
 run: $(BUILD) $(OUTPUT).elf32
 	cp $(OUTPUT).elf32 /var/lib/tftpboot/tftpboot/xenon
 	$(PREFIX)strip /var/lib/tftpboot/tftpboot/xenon
+	$(PREFIX)strip $(OUTPUT).elf32
+	gzip -n9 -f $(OUTPUT).elf32 -S.gz

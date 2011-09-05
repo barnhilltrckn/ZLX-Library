@@ -2,14 +2,30 @@
 #include "action.h"
 extern "C"{
 #include <xenon_nand/xenon_sfcx.h>
-void enet_quiesce();
+#include <xenon_soc/xenon_power.h>
 }
 ZLX::Browser App;
 
-int main() {
 
+char FUSES[256];
+int main() {
+    xenon_make_it_faster(XENON_SPEED_FULL);
     sfcx_init();
-    enet_quiesce();
+    {
+        lpBrowserActionEntry action = new BrowserActionEntry();
+        action->name = "Start HTTPD";
+        action->action = ActionStartHttpd;
+        action->param = NULL;
+        App.AddAction(action);
+    }
+    
+    {
+        lpBrowserActionEntry action = new BrowserActionEntry();
+        action->name = "Return to xell";
+        action->action = ActionReturnToXell;
+        action->param = NULL;
+        App.AddAction(action);
+    }
     {
         lpBrowserActionEntry action = new BrowserActionEntry();
         action->name = "Boot tftp";

@@ -48,7 +48,7 @@ namespace ZLX {
 
         char stmp[256];
 
-        sprintf(stmp,"%s%s",pRessourcePath,"font.abc");
+        sprintf(stmp, "%s%s", pRessourcePath, "font.abc");
 
         LoadFile(stmp, &pFontData, &fontDataLength);
 
@@ -62,18 +62,16 @@ namespace ZLX {
         //printf("Verdana_16_abc_size => 0%08x\r\n",Verdana_16_abc_size);
         // if abc file is not found
         if (pFontData == NULL) {
-            pFontData = (void*)Verdana_16_abc;
+            pFontData = (void*) Verdana_16_abc;
         }
 #endif
-        sprintf(stmp,"%s%s",pRessourcePath,"font.png");
+        sprintf(stmp, "%s%s", pRessourcePath, "font.png");
 
         LoadTextureFromFile(m_pVideoDevice, stmp, &pFontTexture);
 #ifdef LIBXENON
         if (pFontTexture == NULL) {
-            printf("Load Verdana_16_png file");
             extern struct XenosSurface * loadPNGFromMemory(unsigned char *PNGdata);
             pFontTexture = loadPNGFromMemory((unsigned char*) Verdana_16_png);
-            printf("Load Verdana_16_png file ok");
         }
 #endif
         if (pFontTexture == NULL) {
@@ -175,25 +173,14 @@ namespace ZLX {
     }
 
     void Console::Begin() {
-#ifndef LIBXENON
-        g_pVideoDevice->Clear(0, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, m_backColor, 1.0f, 0);
-        g_pVideoDevice->BeginScene();
-#else
-        Xe_InvalidateState(m_pVideoDevice);
+
+        ZLX::Begin();
         Xe_SetClearColor(m_pVideoDevice, m_backColor);
-#endif
+
     }
 
     void Console::End() {
-#ifndef LIBXENON
-        g_pVideoDevice->EndScene();
-        g_pVideoDevice->Present(NULL, NULL, NULL, NULL);
-#else
-        Xe_Resolve(m_pVideoDevice);
-        // wait for vsync
-        while (!Xe_IsVBlank(g_pVideoDevice)); //slowdown ...
-        Xe_Sync(m_pVideoDevice);
-#endif
+        ZLX::End();
     }
 
     /**

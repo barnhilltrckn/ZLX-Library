@@ -8,6 +8,9 @@
 extern "C" {
 #include <input/input.h>
 #include <xenon_nand/xenon_sfcx.h>
+#include <network/network.h>
+#include <ppc/timebase.h>
+#include <time/time.h>
 }
 #include <console/console.h>
 #include <diskio/diskio.h>
@@ -30,7 +33,7 @@ extern "C" {
 #include <math.h>
 #include <diskio/diskio.h>
 
-#define TR {printf("[Trace] in function %s, line %d, file %s\n",__FUNCTION__,__LINE__,__FILE__);}
+//#define TR {printf("[Trace] in function %s, line %d, file %s\n",__FUNCTION__,__LINE__,__FILE__);}
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
 #define MIN(a,b) (((a)<(b))?(a):(b))
@@ -488,16 +491,53 @@ namespace ZLX {
         return;
     }
 
+    char lastDir;
+    uint64_t  lChange[2];
+    
     void Browser::Update() {
+        
 #ifdef WIN32
         W32Update();
 #endif
         usb_do_poll();
+        network_poll();
 
         get_controller_data(&ctrl, 0);
         {
+            int up = 0;
+            int down = 0;
+                 
+            // button pressed
+            if(ctrl.up && !old_ctrl.up){
+                up++;
+                lChange[0]=mftb();
+            }
+            else if (ctrl.down && !old_ctrl.down){
+                down++;
+                lChange[1]=mftb();
+            }
+            // button released
+            if(!ctrl.up){
+                lChange[0]=0;
+            }
+            if(!ctrl.down){
+                lChange[1]=0;
+            }
+            
+            uint64_t now = mftb();
+
+            if(lChange[0]>0)
+            if(tb_diff_msec(now,lChange[0])>500){
+                up++;
+            }
+            if(lChange[1]>0)
+            if(tb_diff_msec(now,lChange[1])>500){
+                down++;
+            }
+            
+            
             //if (get_controller_data(&ctrl, 0)) {
-            if (ctrl.up && !old_ctrl.up) {
+            if (up) {
                 switch (panelSelected) {
                     case PANEL_FILE_LIST:
                         entrySelected--;
@@ -508,7 +548,7 @@ namespace ZLX {
                 }
             }
 
-            if (ctrl.down && !old_ctrl.down) {
+            if (down) {
                 switch (panelSelected) {
                     case PANEL_FILE_LIST:
                         entrySelected++;
@@ -573,7 +613,7 @@ namespace ZLX {
                         //FileEntry currentEntry = vEntry.at(entrySelected);
                         lpBrowserActionEntry currentAction = vAction[actionSelected];
                         if (currentAction->action != NULL) {
-                            currentAction->param = (void*)currentPath;
+                            currentAction->param = (void*) currentPath;
                             //currentAction->param = 
                             currentAction->action(currentAction);
                         }
@@ -614,6 +654,8 @@ namespace ZLX {
 
     void Browser::Init(const char *pRessourcePath) {
         usb_init();
+        network_init();
+        network_print_config();
 
         InitActionEntry();
 #ifdef WIN32		

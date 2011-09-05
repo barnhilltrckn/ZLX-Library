@@ -82,6 +82,8 @@ namespace ZLX {
 #ifdef WIN32
     extern HWND hWnd;
 #endif
+    void Begin();
+    void End();
 
 #ifdef LIBXENON
     // Fatal error ... display line and wait ...
