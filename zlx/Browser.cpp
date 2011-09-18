@@ -1,5 +1,6 @@
 #include "Browser.h"
 #include "Bgshader.h"
+#include "Hw.h"
 #ifdef LIBXENON
 #include <debug.h>
 #include <xenos/xenos.h>
@@ -8,7 +9,6 @@
 extern "C" {
 #include <input/input.h>
 #include <xenon_nand/xenon_sfcx.h>
-#include <network/network.h>
 #include <ppc/timebase.h>
 #include <time/time.h>
 }
@@ -32,6 +32,8 @@ extern "C" {
 #include <string>
 #include <math.h>
 #include <diskio/diskio.h>
+
+
 
 //#define TR {printf("[Trace] in function %s, line %d, file %s\n",__FUNCTION__,__LINE__,__FILE__);}
 
@@ -499,14 +501,13 @@ namespace ZLX {
 #ifdef WIN32
         W32Update();
 #endif
-        usb_do_poll();
-        network_poll();
+        Hw::SystemPool();
 
         get_controller_data(&ctrl, 0);
         {
             int up = 0;
             int down = 0;
-                 
+            
             // button pressed
             if(ctrl.up && !old_ctrl.up){
                 up++;
@@ -528,11 +529,15 @@ namespace ZLX {
 
             if(lChange[0]>0)
             if(tb_diff_msec(now,lChange[0])>500){
-                up++;
+                static int uh=0;
+                uh=!uh;
+                if (uh) up++;
             }
             if(lChange[1]>0)
             if(tb_diff_msec(now,lChange[1])>500){
-                down++;
+                static int dh=0;
+                dh=!dh;
+                if (dh) down++;
             }
             
             
@@ -653,10 +658,6 @@ namespace ZLX {
     static char bTmp[256];
 
     void Browser::Init(const char *pRessourcePath) {
-        usb_init();
-        network_init();
-        network_print_config();
-
         InitActionEntry();
 #ifdef WIN32		
         sprintf(bTmp, "%s%s", pRessourcePath, "\\bg.png");

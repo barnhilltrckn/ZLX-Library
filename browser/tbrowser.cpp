@@ -1,16 +1,17 @@
 #include <Browser.h>
+#include <Hw.h>
 #include "action.h"
-extern "C"{
-#include <xenon_nand/xenon_sfcx.h>
-#include <xenon_soc/xenon_power.h>
-}
-ZLX::Browser App;
 
+
+
+using namespace ZLX;
+
+Browser App;
 
 char FUSES[256];
 int main() {
-    xenon_make_it_faster(XENON_SPEED_FULL);
-    sfcx_init();
+    
+    Hw::SystemInit(INIT_SOUND|INIT_VIDEO|INIT_USB);
     {
         lpBrowserActionEntry action = new BrowserActionEntry();
         action->name = "Start HTTPD";

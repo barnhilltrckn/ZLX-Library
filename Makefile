@@ -15,7 +15,7 @@ include $(DEVKITXENON)/rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	zlx_browser
+TARGET		:=	zlx_browserk
 BUILD		:=	build
 SOURCES		:=	incbin zlx browser  xell/httpd 
 DATA		:=	data 
