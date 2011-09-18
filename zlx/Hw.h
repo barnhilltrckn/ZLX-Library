@@ -22,7 +22,7 @@ namespace ZLX
     class Hw{
     public:
         static void SystemInit(int flags);
-        static void SystemPool();
+        static void SystemPoll();
     };
 }
 

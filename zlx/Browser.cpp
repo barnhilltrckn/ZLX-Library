@@ -501,7 +501,7 @@ namespace ZLX {
 #ifdef WIN32
         W32Update();
 #endif
-        Hw::SystemPool();
+        Hw::SystemPoll();
 
         get_controller_data(&ctrl, 0);
         {

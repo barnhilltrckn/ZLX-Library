@@ -53,7 +53,7 @@ namespace ZLX
             init_flags = flags;
         }
     }
-    void Hw::SystemPool(){
+    void Hw::SystemPoll(){
         if(init_flags & INIT_USB){
             usb_do_poll();
         }
