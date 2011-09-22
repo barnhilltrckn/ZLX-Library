@@ -11,6 +11,7 @@ namespace ZLX {
     Load a texture from a file (libxenon only png are loaded)
      **/
     int LoadTextureFromFile(ZLXVideoDevice * pDevice, char * pSrcFile, ZLXTexture**ppTexture);
+	struct XenosSurface *loadPNGFromMemory(unsigned char *PNGdata);
 
     int GetScreenWidth();
     int GetScreenHeight();

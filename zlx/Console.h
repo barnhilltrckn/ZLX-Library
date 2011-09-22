@@ -37,6 +37,8 @@ namespace ZLX {
 
         // Scroll
         void ScrollUp(int nline);
+		
+		Font * getFont(){ return &m_font; };
 
     protected:
         // Color 
