@@ -18,7 +18,7 @@ extern "C" {
 #include <time/time.h>
 }
 #include <console/console.h>
-#include <diskio/diskio.h>
+#include <diskio/disc_io.h>
 #include <usb/usbmain.h>
 #include <time/time.h>
 #include <xenon_soc/xenon_power.h>

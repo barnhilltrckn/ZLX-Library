@@ -13,7 +13,7 @@ extern "C" {
 #include <time/time.h>
 }
 #include <console/console.h>
-#include <diskio/diskio.h>
+#include <diskio/disc_io.h>
 #include <usb/usbmain.h>
 #include <time/time.h>
 #include <xenon_soc/xenon_power.h>
@@ -31,7 +31,6 @@ extern "C" {
 #include <vector>
 #include <string>
 #include <math.h>
-#include <diskio/diskio.h>
 
 
 
@@ -311,6 +310,7 @@ namespace ZLX {
         // Finished to draw font things ...
         m_font.End();
 
+
         // Draw all text + form
         Render();
         // Draw is finished
@@ -443,7 +443,8 @@ namespace ZLX {
         //        strcpy(currentPath, "uda:/");
         handle = -1;
         const char * s = NULL;
-        handle = bdev_enum(handle, &s);
+        /* Mounting / device enum / finding rootdev should happen here */
+        //handle = bdev_enum(handle, &s);
         if (handle < 0) {
             TR;
             strcpy(currentPath, "uda:/");
@@ -571,13 +572,14 @@ namespace ZLX {
                         break;
                 }
             }
-            if (ctrl.select && !old_ctrl.select) {
+            if (ctrl.back && !old_ctrl.back) {
 #ifdef LIBXENON
                 switch (panelSelected) {
                     case PANEL_FILE_LIST:
                         const char * s;
                         do {
-                            handle = bdev_enum(handle, &s);
+                            /* Mounting / device enum / finding rootdev should HAVE happened here ALREADY */
+                            //handle = bdev_enum(handle, &s);
                         } while (handle < 0);
 
                         strcpy(currentPath, s);
