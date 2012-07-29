@@ -32,7 +32,7 @@ extern "C" {
 #include <string>
 #include <math.h>
 
-
+#include "mount.h"
 
 //#define TR {printf("[Trace] in function %s, line %d, file %s\n",__FUNCTION__,__LINE__,__FILE__);}
 
@@ -83,6 +83,23 @@ static bool vEntrySort(FileEntry i, FileEntry j) {
 static std::vector<FileEntry> vEntry;
 
 // move to util ??
+
+int get_devices(int j, char * m) {
+	int i;
+	for (i = 3 + j; i < STD_MAX; i++) {
+		if (devoptab_list[i]->structSize) {
+			sprintf(m, "%s:/", devoptab_list[i]->name);
+			printf("found\n");
+			break;
+		}
+	}
+	i++;
+	if (i >= STD_MAX) {
+		sprintf(m, "%s:/", devoptab_list[3]->name);
+		i = 4;
+	}
+	return i - 3;
+}
 
 static void append_dir_to_path(char * path, const char * dir) {
     if (!strcmp(dir, "..")) {
@@ -440,21 +457,15 @@ namespace ZLX {
 #ifdef WIN32
         strcpy(currentPath, "c:/");
 #else
-        //        strcpy(currentPath, "uda:/");
+        //        strcpy(currentPath, "uda0:/");
         handle = -1;
-        const char * s = NULL;
-        /* Mounting / device enum / finding rootdev should happen here */
-        //handle = bdev_enum(handle, &s);
-        if (handle < 0) {
-            TR;
-            strcpy(currentPath, "uda:/");
-        } else {
-            strcpy(currentPath, s);
-            strcat(currentPath, ":/");
-            TR;
-
-            TR;
-        }
+        char * s = NULL;
+        int next_device_n = 0;
+        
+        next_device_n = get_devices(next_device_n, s);
+        
+        strcpy(currentPath, s);
+        
         ScanDir();
 #endif
 
@@ -576,14 +587,12 @@ namespace ZLX {
 #ifdef LIBXENON
                 switch (panelSelected) {
                     case PANEL_FILE_LIST:
-                        const char * s;
-                        do {
-                            /* Mounting / device enum / finding rootdev should HAVE happened here ALREADY */
-                            //handle = bdev_enum(handle, &s);
-                        } while (handle < 0);
+                        char * s;
+                        int next_device_n = 0;
+
+                        next_device_n = get_devices(next_device_n, s);
 
                         strcpy(currentPath, s);
-                        strcat(currentPath, ":/");
                         ScanDir();
                         break;
                 }

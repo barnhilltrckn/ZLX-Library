@@ -336,7 +336,7 @@ public:
 #ifdef WIN32
 		strcpy(currentPath,"c:/");
 #else
-		strcpy(currentPath,"uda:/");
+		strcpy(currentPath,"uda0:/");
 #endif
 		ScanDir();
 
@@ -499,8 +499,8 @@ private:
         Create("..\\ressources\\", 0xFF000000, 0xFFFFFF00);
 		LoadTextureFromFile(g_pVideoDevice,"..\\ressources\\bg.png",&bg);
 #else
-        Create("uda:/ressources", 0xFF0000FF, 0xFFFFFF00);
-		LoadTextureFromFile(g_pVideoDevice,"uda:/ressources/bg.png",&bg);
+        Create("uda0:/ressources", 0xFF0000FF, 0xFFFFFF00);
+		LoadTextureFromFile(g_pVideoDevice,"uda0:/ressources/bg.png",&bg);
 #endif
 		
     };

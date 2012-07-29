@@ -366,7 +366,7 @@ void MyConsole::Run() {
     // Disable auto render on format
     SetAutoRender(0);
 
-    //        strcpy(currentPath, "uda:/");
+    //        strcpy(currentPath, "uda0:/");
     handle = -1;
     const char * s = NULL;
     handle = bdev_enum(handle, &s);
@@ -589,8 +589,8 @@ void MyConsole::Init() {
 
     InitActionEntry();
 
-    Create("uda:/ressources/", 0xFF0000FF, 0xFFFFFF00);
-    LoadTextureFromFile(g_pVideoDevice, "uda:/ressources/bg.png", &bg);
+    Create("uda0:/ressources/", 0xFF0000FF, 0xFFFFFF00);
+    LoadTextureFromFile(g_pVideoDevice, "uda0:/ressources/bg.png", &bg);
 };
 
 int main() {

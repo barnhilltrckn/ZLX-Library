@@ -57,5 +57,5 @@ int main() {
     }
 
     App.SetLaunchAction(ActionLaunchFile);
-    App.Run("uda://ressources/");
+    App.Run("uda0://ressources/");
 }
