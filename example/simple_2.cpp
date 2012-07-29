@@ -38,7 +38,7 @@ public:
         Format("test Lzx sample");
 
 		ZLXTexture * tt = NULL;
-		LoadTextureFromFile(g_pVideoDevice,"uda:/t1.png",&tt);
+		LoadTextureFromFile(g_pVideoDevice,"uda0:/t1.png",&tt);
 
         float i;
 

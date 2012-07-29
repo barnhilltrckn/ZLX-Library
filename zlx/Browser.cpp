@@ -457,7 +457,7 @@ namespace ZLX {
 #ifdef WIN32
         strcpy(currentPath, "c:/");
 #else
-        //        strcpy(currentPath, "uda:/");
+        //        strcpy(currentPath, "uda0:/");
         handle = -1;
         char * s = NULL;
         int next_device_n = 0;
